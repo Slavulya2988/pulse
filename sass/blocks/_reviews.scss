@@ -1,0 +1,50 @@
+.reviews {
+    padding-bottom: 48px;
+
+    &__items {
+        margin-top: 60px;
+
+
+    }
+
+    .reviews-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+
+        &:not(:last-child) {
+            margin-bottom: 60px;
+        }
+
+
+
+        &_descr {
+            padding-right: 34px;
+            padding-left: 61px;
+        }
+
+        &_client {
+            font-weight: 700;
+            font-size: 18px;
+            color: #0D0D0D;
+        }
+
+        &_progress {
+            font-weight: 500;
+            font-size: 14px;
+            color: #646464;
+            line-height: 22px;
+
+        }
+
+        &_message {
+            font-weight: 300;
+            font-size: 16px;
+            line-height: 24px;
+            color: #0D0D0D;
+
+        }
+    }
+
+
+}

@@ -1,4 +1,4 @@
-// import { tns } from 'tiny-slider.min.js';
+// import { tns } from 'tiny-slider';
 
 const slider = tns({
     container: '.carousel__inner',
