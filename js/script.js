@@ -13,19 +13,41 @@ document.querySelector('.prev').addEventListener('click', () => slider.goTo('pre
 document.querySelector('.next').addEventListener('click', () => slider.goTo('next'));
 
 
-(function ($) {
-    $(function () {
+function tabs() {
+    const tabs = document.querySelectorAll('.catalog__tab'),
+        contentTabs = document.querySelectorAll('.catalog__content');
 
-        $('ul.catalog__tabs').on('click', 'li:not(.catalog__tab_active)', function () {
-            $(this)
-                .addClass('catalog__tab_active').siblings().removeClass('catalog__tab_active')
-                .closest('div.container').find('div.catalog__content').removeClass('catalog__content_active').eq($(this).index()).addClass('catalog__content_active');
+    function removeClassActive(element, classActive) {
+        element.forEach(item => {
+            item.classList.remove(classActive);
         });
+    }
 
+    removeClassActive(tabs, 'catalog__tab_active');
+    removeClassActive(contentTabs, 'catalog__content_active');
+
+
+    tabs[0].classList.add('catalog__tab_active');
+    contentTabs[0].classList.add('catalog__content_active');
+
+
+    tabs.forEach((item, i) => {
+
+        item.addEventListener('click', (e) => {
+            removeClassActive(tabs, 'catalog__tab_active');
+            removeClassActive(contentTabs, 'catalog__content_active');
+
+            if (e.target.parentElement == item) {
+                item.classList.add('catalog__tab_active');
+                contentTabs[i].classList.add('catalog__content_active');
+            }
+
+        });
     });
 
-})(jQuery);
+}
 
+tabs();
 
 function toggleSlideJS(itemsClass) {
     const
@@ -48,19 +70,3 @@ function toggleSlideJS(itemsClass) {
 }
 toggleSlideJS('.catalog-item__link');
 toggleSlideJS('.catalog-item__back');
-
-// function toggleSlide(item) {
-//     $(item).each(function (i) {
-//         $(this).on('click', function (e) {
-//             e.preventDefault();
-
-//             $('.catalog-item__content').eq(i).toggleClass('catalog-item__content_active');
-//             $('.catalog-item__list').eq(i).toggleClass('catalog-item__list_active');
-
-
-//         });
-//     });
-// }
-
-// toggleSlide('.catalog-item__link');
-// toggleSlide('.catalog-item__back');
