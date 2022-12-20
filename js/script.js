@@ -70,3 +70,55 @@ function toggleSlideJS(itemsClass) {
 }
 toggleSlideJS('.catalog-item__link');
 toggleSlideJS('.catalog-item__back');
+
+// modal
+function showModal() {
+    const
+        modalButoon = document.querySelectorAll('[data-modal=consultation]'),
+        buttonMini = document.querySelectorAll('.button_mini'),
+
+
+        modalConsultation = document.querySelector('#consultation'),
+        modalOrder = document.querySelector('#order'),
+        modalDescr = modalOrder.querySelector('.modal__descr'),
+
+        overlay = document.querySelector('.overlay'),
+        modalClose = document.querySelectorAll('.modal__close'),
+
+        titles = document.querySelectorAll('.catalog-item__subtitle')
+        ;
+
+
+
+
+
+    modalButoon.forEach(item => {
+        item.addEventListener('click', (e) => {
+
+            overlay.style.display = 'block';
+            modalConsultation.style.display = 'block';
+
+        });
+    });
+
+    buttonMini.forEach((item, i) => {
+        item.addEventListener('click', () => {
+            // console.log(titles[i].textContent);
+            modalDescr.textContent = titles[i].textContent;
+            overlay.style.display = 'block';
+            modalOrder.style.display = 'block';
+
+        });
+    });
+
+
+    modalClose.forEach(item => {
+        item.addEventListener('click', () => {
+            overlay.style.display = '';
+            modalConsultation.style.display = '';
+            modalOrder.style.display = '';
+        });
+    });
+}
+
+showModal();

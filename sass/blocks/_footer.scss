@@ -2,6 +2,7 @@
     min-height: 630px;
     position: relative;
 
+
     &__info {
         position: absolute;
         top: 0;
@@ -46,6 +47,12 @@
 
         img {
             margin: 0 14px;
+            transition: transform 0.25s;
+
+            &:hover {
+                transform: scale(1.2);
+                border-radius: 100%;
+            }
         }
     }
 }
