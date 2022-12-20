@@ -1,5 +1,3 @@
-import { tns } from './tiny-slider.min.js';
-
 const slider = tns({
     container: '.carousel__inner',
     items: 1,
@@ -65,8 +63,6 @@ function toggleSlideJS(itemsClass) {
             }
         });
     });
-
-
 }
 toggleSlideJS('.catalog-item__link');
 toggleSlideJS('.catalog-item__back');
@@ -88,10 +84,6 @@ function showModal() {
         titles = document.querySelectorAll('.catalog-item__subtitle')
         ;
 
-
-
-
-
     modalButoon.forEach(item => {
         item.addEventListener('click', (e) => {
 
@@ -111,7 +103,6 @@ function showModal() {
         });
     });
 
-
     modalClose.forEach(item => {
         item.addEventListener('click', () => {
             overlay.style.display = '';
@@ -122,3 +113,31 @@ function showModal() {
 }
 
 showModal();
+// validation
+
+// (function ($) {
+// $(function () {
+
+$('#consultation-form').validate();
+$('#order form').validate();
+$('#consultation form').validate({
+    rules: {
+        name: "required",
+        phone: "required",
+        email: {
+            required: true,
+            email: true
+        }
+    },
+    messages: {
+        name: "Будь ласка, вкажіть своє ім'я",
+        phone: "Вкажить свій номер телефону",
+        email: {
+            required: "Нам потрібна ваша електронна адреса, щоб зв'язатися з вами",
+            email: "Ваша електронна адреса має бути у форматі name@domain.com"
+        }
+    }
+});
+
+// });
+// })(jQuery);
