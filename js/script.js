@@ -1,5 +1,3 @@
-
-
 const slider = tns({
     container: '.carousel__inner',
     items: 1,
@@ -150,43 +148,50 @@ validateForm('#consultation form');
 // mask for input
 
 
-jQuery(function ($) {
+
+
+$(document).ready(function () {
+    //форматна маска для поля телефон
     $("input[name=phone]").mask("+ 3 (999) 99-99-999");
-});
+    // відправка повідомлення поштою
+    $('form').submit(function (e) {
+        e.preventDefault();
 
-$('form').submit(function (e) {
-    e.preventDefault();
+        if (!$(this).valid()) {
+            return;
+        }
 
-    if (!$(this).valid()) {
-        return;
-    }
+        $.ajax({
+            type: "POST",
+            url: "mailer/smart.php",
+            data: $(this).serialize()
+        }).done(function () {
+            $(this).finf("input").val("");
+            $('#consultation, #order').fadeOut();
+            $('.overlay, #thanks').fadeIn('slow');
 
-    $.ajax({
-        type: "POST",
-        url: "mailer/smart.php",
-        data: $(this).serialize()
-    }).done(function () {
-        $(this).finf("input").val("");
-        $('#consultation, #order').fadeOut();
-        $('.overlay, #thanks').fadeIn('slow');
-
-        $('form').trigger('reset');
+            $('form').trigger('reset');
+        });
+        return false;
     });
-    return false;
-});
 
-// Smooth scror and pageup
 
-$(window).scroll(function () {
-    if ($(this).scrollTop() > 1600) {
-        $('.pageup').fadeIn();
-    } else {
-        $('.pageup').fadeOut();
-    }
-});
 
-$("a[href^='#']").click(function () {
-    const _href = $(this).attr("href");
-    $("html, body").animate({ scrollTop: $(_href).offset().top + "px" });
-    return false;
+    // Smooth scror and pageup
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 1600) {
+            $('.pageup').fadeIn();
+        } else {
+            $('.pageup').fadeOut();
+        }
+    });
+
+    //плавний перехід на верх сторинки
+    $("a[href^='#']").click(function () {
+        const _href = $(this).attr("href");
+        $("html, body").animate({ scrollTop: $(_href).offset().top + "px" });
+        return false;
+    });
+
 });
