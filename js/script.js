@@ -1,3 +1,5 @@
+
+
 const slider = tns({
     container: '.carousel__inner',
     items: 1,
@@ -115,29 +117,60 @@ function showModal() {
 showModal();
 // validation
 
-// (function ($) {
-// $(function () {
+function validateForm(form) {
+    $(form).validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: 2
+            },
+            phone: "required",
+            email: {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            name: {
+                required: "Будь ласка, вкажіть своє ім'я",
+                minlength: jQuery.validator.format("Повинно бути не меньш {0} символів!")
+            },
+            phone: "Вкажить свій номер телефону",
+            email: {
+                required: "Нам потрібна ваша електронна адреса, щоб зв'язатися з вами",
+                email: "Ваша електронна адреса має бути у форматі name@domain.com"
+            }
+        }
+    });
+}
 
-$('#consultation-form').validate();
-$('#order form').validate();
-$('#consultation form').validate({
-    rules: {
-        name: "required",
-        phone: "required",
-        email: {
-            required: true,
-            email: true
-        }
-    },
-    messages: {
-        name: "Будь ласка, вкажіть своє ім'я",
-        phone: "Вкажить свій номер телефону",
-        email: {
-            required: "Нам потрібна ваша електронна адреса, щоб зв'язатися з вами",
-            email: "Ваша електронна адреса має бути у форматі name@domain.com"
-        }
-    }
+validateForm('#consultation-form');
+validateForm('#order form');
+validateForm('#consultation form');
+// mask for input
+
+
+jQuery(function ($) {
+    $("input[name=phone]").mask("+ 3 (999) 99-99-999");
 });
 
-// });
-// })(jQuery);
+$('form').submit(function (e) {
+    e.preventDefault();
+
+    if (!$(this).valid()) {
+        return;
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "mailer/smart.php",
+        data: $(this).serialize()
+    }).done(function () {
+        $(this).finf("input").val("");
+        $('#consultation, #order').fadeOut();
+        $('.overlay, #thanks').fadeIn('slow');
+
+        $('form').trigger('reset');
+    });
+    return false;
+});
