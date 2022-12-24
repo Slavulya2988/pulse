@@ -1,3 +1,8 @@
+import {tns} from 'tiny-slider';
+import  $ from 'jquery';
+import jQuery from 'jquery-validation';
+import Inputmask from "inputmask";
+
 const slider = tns({
     container: '.carousel__inner',
     items: 1,
@@ -113,6 +118,21 @@ function showModal() {
 }
 
 showModal();
+   // Smooth scror and pageup
+	$(window).on("scroll",function () {
+		if ($(this).scrollTop() > 1600) {
+			 $('.pageup').fadeIn();
+		} else {
+			 $('.pageup').fadeOut();
+		}
+  });
+
+  //плавний перехід на верх сторинки
+  $("a[href^='#']").on('click',function () {
+		const _href = $(this).attr("href");
+		$("html, body").animate({ scrollTop: $(_href).offset().top + "px" });
+		return false;
+  });
 // validation
 
 function validateForm(form) {
@@ -145,53 +165,33 @@ function validateForm(form) {
 validateForm('#consultation-form');
 validateForm('#order form');
 validateForm('#consultation form');
-// mask for input
+
+//форматна маска для поля телефон
+const selector = document.querySelectorAll('[name="phone"]');
+const im = new Inputmask("+ 3 (999) 99-99-999");
+	selector.forEach(item  => {
+		im.mask(item);
+	});
 
 
+// відправка повідомлення поштою
+$('form').on('submit',function (e) {
+	e.preventDefault();
 
+	if (!$(this).valid()) {
+		return;
+	}
 
-$(document).ready(function () {
-    //форматна маска для поля телефон
-    $("input[name=phone]").mask("+ 3 (999) 99-99-999");
-    // відправка повідомлення поштою
-    $('form').submit(function (e) {
-        e.preventDefault();
+	$.ajax({
+		type: "POST",
+		url: "mailer/smart.php",
+		data: $(this).serialize()
+	}).done(function () {
+		$(this).finf("input").val("");
+		$('#consultation, #order').fadeOut();
+		$('.overlay, #thanks').fadeIn('slow');
 
-        if (!$(this).valid()) {
-            return;
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "mailer/smart.php",
-            data: $(this).serialize()
-        }).done(function () {
-            $(this).finf("input").val("");
-            $('#consultation, #order').fadeOut();
-            $('.overlay, #thanks').fadeIn('slow');
-
-            $('form').trigger('reset');
-        });
-        return false;
-    });
-
-
-
-    // Smooth scror and pageup
-
-    $(window).scroll(function () {
-        if ($(this).scrollTop() > 1600) {
-            $('.pageup').fadeIn();
-        } else {
-            $('.pageup').fadeOut();
-        }
-    });
-
-    //плавний перехід на верх сторинки
-    $("a[href^='#']").click(function () {
-        const _href = $(this).attr("href");
-        $("html, body").animate({ scrollTop: $(_href).offset().top + "px" });
-        return false;
-    });
-
+		$('form').trigger('reset');
+	});
+	return false;
 });
