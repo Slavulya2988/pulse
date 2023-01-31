@@ -1,5 +1,5 @@
-import {tns} from 'tiny-slider';
-import  $ from 'jquery';
+import { tns } from 'tiny-slider';
+import $ from 'jquery';
 import jQuery from 'jquery-validation';
 import Inputmask from "inputmask";
 
@@ -118,21 +118,21 @@ function showModal() {
 }
 
 showModal();
-   // Smooth scror and pageup
-	$(window).on("scroll",function () {
-		if ($(this).scrollTop() > 1600) {
-			 $('.pageup').fadeIn();
-		} else {
-			 $('.pageup').fadeOut();
-		}
-  });
+// Smooth scror and pageup
+$(window).on("scroll", function () {
+    if ($(this).scrollTop() > 1600) {
+        $('.pageup').fadeIn();
+    } else {
+        $('.pageup').fadeOut();
+    }
+});
 
-  //плавний перехід на верх сторинки
-  $("a[href^='#']").on('click',function () {
-		const _href = $(this).attr("href");
-		$("html, body").animate({ scrollTop: $(_href).offset().top + "px" });
-		return false;
-  });
+//плавний перехід на верх сторинки
+$("a[href=#up]").on('click', function () {
+    const _href = $(this).attr("href");
+    $("html, body").animate({ scrollTop: $(_href).offset().top + "px" });
+    return false;
+});
 // validation
 
 function validateForm(form) {
@@ -169,29 +169,29 @@ validateForm('#consultation form');
 //форматна маска для поля телефон
 const selector = document.querySelectorAll('[name="phone"]');
 const im = new Inputmask("+ 3 (999) 99-99-999");
-	selector.forEach(item  => {
-		im.mask(item);
-	});
+selector.forEach(item => {
+    im.mask(item);
+});
 
 
 // відправка повідомлення поштою
-$('form').on('submit',function (e) {
-	e.preventDefault();
+$('form').on('submit', function (e) {
+    e.preventDefault();
 
-	if (!$(this).valid()) {
-		return;
-	}
+    if (!$(this).valid()) {
+        return;
+    }
 
-	$.ajax({
-		type: "POST",
-		url: "mailer/smart.php",
-		data: $(this).serialize()
-	}).done(function () {
-		$(this).finf("input").val("");
-		$('#consultation, #order').fadeOut();
-		$('.overlay, #thanks').fadeIn('slow');
+    $.ajax({
+        type: "POST",
+        url: "mailer/smart.php",
+        data: $(this).serialize()
+    }).done(function () {
+        $(this).finf("input").val("");
+        $('#consultation, #order').fadeOut();
+        $('.overlay, #thanks').fadeIn('slow');
 
-		$('form').trigger('reset');
-	});
-	return false;
+        $('form').trigger('reset');
+    });
+    return false;
 });
